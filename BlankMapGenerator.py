@@ -113,7 +113,7 @@ def parssDefaultMap():
 
 def drawMat(deffProvList):
     if os.path.exists("error.txt"):
-    os.remove("error.txt")
+        os.remove("error.txt")
     try:
         provMap = Image.open("Input/provinces.png")
     except:
