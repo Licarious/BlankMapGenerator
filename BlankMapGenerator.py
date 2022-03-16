@@ -5,7 +5,7 @@ import os
 
 #Colors for the various water and wasteland types from the default.map
 #General Provinces, Impassible Sea, Sea, River, Lake, Wasteland/Impassable Mountains, Unihabitable, Impasable Terrain
-drawColorList = [(255,255,255,0),(15,15,100,255),(30,30,150,255),(100,100,250,255),(150,150,200,255),(50,50,50,255),(185,185,185,255),(95,95,95,255)]
+drawColorList = [(255,255,255,255),(15,15,100,255),(30,30,150,255),(100,100,250,255),(150,150,200,255),(50,50,50,255),(185,185,185,255),(95,95,95,255)]
 drawBorders = True    #wether or not to draw province borders (True/False)
 
 
