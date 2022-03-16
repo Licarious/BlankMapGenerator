@@ -4,8 +4,8 @@ import time
 import os
 
 #Colors for the various water and wasteland types from the default.map
-#Impassible Sea, Sea, River, Lake, Wasteland/Impassable Mountains, Unihabitable, Impasable Terrain
-drawColorList = [(15,15,100),(30,30,150),(100,100,250),(150,150,200),(50,50,50),(185,185,185),(95,95,95)]
+#General Provinces, Impassible Sea, Sea, River, Lake, Wasteland/Impassable Mountains, Unihabitable, Impasable Terrain
+drawColorList = [(255,255,255),(15,15,100),(30,30,150),(100,100,250),(150,150,200),(50,50,50),(185,185,185),(95,95,95)]
 drawBorders = True    #wether or not to draw province borders (True/False)
 
 
@@ -125,7 +125,7 @@ def drawMat(deffProvList):
     xRange= range(0,provMap.size[0],1)
     yRange= range(0,provMap.size[1],1)
     drawReader = provMap.load()
-    drawingMap = Image.new("RGB", (provMap.size[0],provMap.size[1]), color = "white")#Image.open("Input/provinces.png")
+    drawingMap = Image.new("RGB", (provMap.size[0],provMap.size[1]), color = drawColorList[0])
     #drawingMap.putalpha(0)
     riverMat = drawingMap.load()
     z=0
@@ -168,7 +168,7 @@ def drawMat(deffProvList):
             print("\t%g%%"%(y*100/provMap.size[1]))
         tx = 0
         for x in range(0,len(tmpMapColor[y])):
-            j=0
+            j=1
             for l in deffProvList:
                 #print(l)
                 if tmpMapColor[y][x] in l:
