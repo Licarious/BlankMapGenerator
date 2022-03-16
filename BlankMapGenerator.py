@@ -3,10 +3,10 @@ from PIL import Image
 import time
 import os
 
-
+#Colors for the various water and wasteland types from the default.map
 #Impassible Sea, Sea, River, Lake, Wasteland/Impassable Mountains, Unihabitable, Impasable Terrain
 drawColorList = [(15,15,100),(30,30,150),(100,100,250),(150,150,200),(50,50,50),(185,185,185),(95,95,95)]
-
+drawBorders = True    #wether or not to draw province borders (True/False)
 
 
 
@@ -134,7 +134,7 @@ def drawMat(deffProvList):
 
     count = 0
 
-    print("Starting Compression")
+    print("Compression Image")
     tmpMapColor = []
     ColorLength = []
     for y in yRange:
@@ -142,6 +142,8 @@ def drawMat(deffProvList):
         ColorlengthLine = []
         length = 1
         color = drawReader[0,y]
+        if y%512 ==0:
+            print("\t%g%%"%(y*100/provMap.size[1]))
         for x in range(1,provMap.size[0]):
             if drawReader[x,y] == color:
                 length+=1
@@ -158,13 +160,12 @@ def drawMat(deffProvList):
         ColorLength.append(ColorlengthLine)
         #print(mapLine[5])
 
-    print("Finished Compression")
-    print("Drawing Territory and Vertical Borders")
+    print("Drawing Water, Wasteland, and Vertical Borders")
 
     for y in yRange:
         #print(drawReader[5,y])
         if y%256 ==0:
-            print("%g%%"%(y*100/provMap.size[1]))
+            print("\t%g%%"%(y*100/provMap.size[1]))
         tx = 0
         for x in range(0,len(tmpMapColor[y])):
             j=0
@@ -177,19 +178,23 @@ def drawMat(deffProvList):
                 j+=1
             tx+=ColorLength[y][x]
             #draw ver borders
-            riverMat[tx-1,y] = (0,0,0)
+            if drawBorders:
+                riverMat[tx-1,y] = (0,0,0)
     
             
     #draw hor borders
-    print("Drawing Horizontal Borders")
-    for x in xRange:
-        color = drawReader[x,0]
-        for y in range(1,provMap.size[1]):
-            if drawReader[x,y] == color:
-                pass
-            else:
-                riverMat[x,y] = (0,0,0)
-                color = drawReader[x,y]
+    if drawBorders:
+        print("Drawing Horizontal Borders")
+        for x in xRange:
+            if x%512 ==0:
+                print("\t%g%%"%(x*100/provMap.size[0]))
+            color = drawReader[x,0]
+            for y in range(1,provMap.size[1]):
+                if drawReader[x,y] == color:
+                    pass
+                else:
+                    riverMat[x,y] = (0,0,0)
+                    color = drawReader[x,y]
 
     drawingMap.save("BlankMap.png")
     drawingMap.show()
