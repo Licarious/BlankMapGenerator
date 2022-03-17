@@ -4,8 +4,15 @@ import time
 import os
 
 #Colors for the various water and wasteland types from the default.map
-#General Provinces, Impassible Sea, Sea, River, Lake, Wasteland/Impassable Mountains, Unihabitable, Impasable Terrain
-drawColorList = [(255,255,255,255),(15,15,100,255),(30,30,150,255),(100,100,250,255),(150,150,200,255),(50,50,50,255),(185,185,185,255),(95,95,95,255)]
+generalProvinceColor = (255,255,255,255)    #normal provinces (IR/CK3)
+impassableSeaColor = (15,15,100,255)        #seas that can't be sailed on (IR/CK3)
+seaColor = (30,30,150,255)                  #normal seas (IR/CK3)
+riverColor = (100,100,250,255)              #normal rivers (IR/CK3)
+lakeColor = (150,150,200,255)               #lakes (IR/CK3)
+wastelandColor = (50,50,50,255)              #wastelands (CK3) / uncolorable wastelands (IR)
+unihabitableColor = (185,185,185,255)       #traversable wastelands (IR)
+impassableColor = (95,95,95,255)            #colorable wastelands (IR)
+
 drawBorders = True    #wether or not to draw province borders (True/False)
 
 
@@ -111,6 +118,7 @@ def parssDefaultMap():
     pass
 
 
+drawColorList = [generalProvinceColor,impassableSeaColor,seaColor,riverColor,lakeColor,wastelandColor,unihabitableColor,impassableColor]
 def drawMat(deffProvList):
     if os.path.exists("error.txt"):
         os.remove("error.txt")
