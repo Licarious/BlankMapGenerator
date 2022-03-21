@@ -9,9 +9,10 @@ impassableSeaColor = (15,15,100,255)        #seas that can't be sailed on (IR/CK
 seaColor = (30,30,150,255)                  #normal seas (IR/CK3)
 riverColor = (100,100,250,255)              #normal rivers (IR/CK3)
 lakeColor = (150,150,200,255)               #lakes (IR/CK3)
-wastelandColor = (50,50,50,255)              #wastelands (CK3) / uncolorable wastelands (IR)
+wastelandColor = (50,50,50,255)             #wastelands (CK3) / uncolorable wastelands (IR)
 unihabitableColor = (185,185,185,255)       #traversable wastelands (IR)
 impassableColor = (95,95,95,255)            #colorable wastelands (IR)
+borderColor = (0,0,0,255)
 
 drawBorders = True    #wether or not to draw province borders (True/False)
 
@@ -123,7 +124,10 @@ def drawMat(deffProvList):
     if os.path.exists("error.txt"):
         os.remove("error.txt")
     try:
-        provMap = Image.open("Input/provinces.png")
+        try:
+            provMap = Image.open("Input/provinces.png")
+        except:
+            provMap = Image.open("Input/provinces.bmp")
     except:
         print("Unable to read provinces.png, please open and resave it.")
         f = open("error.txt",'w')
@@ -187,7 +191,7 @@ def drawMat(deffProvList):
             tx+=ColorLength[y][x]
             #draw ver borders
             if drawBorders:
-                riverMat[tx-1,y] = (0,0,0)
+                riverMat[tx-1,y] = borderColor
     
             
     #draw hor borders
@@ -201,7 +205,7 @@ def drawMat(deffProvList):
                 if drawReader[x,y] == color:
                     pass
                 else:
-                    riverMat[x,y] = (0,0,0)
+                    riverMat[x,y] = borderColor
                     color = drawReader[x,y]
 
     drawingMap.save("BlankMap.png")
