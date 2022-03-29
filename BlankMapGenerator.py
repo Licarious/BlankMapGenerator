@@ -15,6 +15,7 @@ impassableColor = (95,95,95,255)            #colorable wastelands (IR)
 borderColor = (0,0,0,255)
 
 drawBorders = True    #wether or not to draw province borders (True/False)
+boldBorders = False    #borders are 2 pixels thick instead of 1 (True/False)
 
 
 
@@ -121,18 +122,15 @@ def parssDefaultMap():
 
 drawColorList = [generalProvinceColor,impassableSeaColor,seaColor,riverColor,lakeColor,wastelandColor,unihabitableColor,impassableColor]
 def drawMat(deffProvList):
-    if os.path.exists("error.txt"):
-        os.remove("error.txt")
     try:
-        try:
+        if os.path.exists("Input/provinces.png"):
             provMap = Image.open("Input/provinces.png")
-        except:
+        else:
             provMap = Image.open("Input/provinces.bmp")
     except:
-        print("Unable to read provinces.png, please open and resave it.")
-        f = open("error.txt",'w')
-        f.write("Unable to read provinces.png, please open and resave it.")
-        f.close()
+        print("Unable to read provinces image file, would you kindly open and resave it.")
+        input('')
+        os._exit(0)
     provMap.putalpha(255)
     xRange= range(0,provMap.size[0],1)
     yRange= range(0,provMap.size[1],1)
@@ -156,7 +154,7 @@ def drawMat(deffProvList):
         color = drawReader[0,y]
         if y%512 ==0:
             print("\t%g%%"%(y*100/provMap.size[1]))
-        for x in range(1,provMap.size[0]):
+        for x in xRange:
             if drawReader[x,y] == color:
                 length+=1
             else:
@@ -191,7 +189,11 @@ def drawMat(deffProvList):
             tx+=ColorLength[y][x]
             #draw ver borders
             if drawBorders:
-                riverMat[tx-1,y] = borderColor
+                if not tx == provMap.size[0]:
+                    riverMat[tx-1,y] = borderColor
+                    if boldBorders:
+                        riverMat[tx-2,y] = borderColor
+                    
     
             
     #draw hor borders
@@ -201,11 +203,14 @@ def drawMat(deffProvList):
             if x%512 ==0:
                 print("\t%g%%"%(x*100/provMap.size[0]))
             color = drawReader[x,0]
-            for y in range(1,provMap.size[1]):
+            for y in yRange:
                 if drawReader[x,y] == color:
                     pass
                 else:
                     riverMat[x,y] = borderColor
+                    if boldBorders:
+                        riverMat[x,y-1] = borderColor
+                    
                     color = drawReader[x,y]
 
     drawingMap.save("BlankMap.png")
